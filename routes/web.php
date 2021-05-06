@@ -22,3 +22,11 @@ $router->post("/register", "AuthController@register");
 $router->post("/login", "AuthController@login");
 
 $router->get("/user", "UserController@index");
+
+$router->get("/user_movie", "UserController@showMovie");
+$router->get("/watching", "UserController@showWatchingList");
+$router->get("/watched", "UserController@showWatchedList");
+
+$router->post("/add", "UserController@addMovie");
+$router->get("/delete", "UserController@deleteMovie");
+$router->get("/edit", "UserController@changeListCategory");
