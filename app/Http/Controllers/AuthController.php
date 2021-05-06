@@ -36,7 +36,7 @@ class AuthController extends Controller
             ];
         } else {
             $out = [
-                "message" => "vailed_regiser",
+                "message" => "register_fail",
                 "code"   => 404,
             ];
         }
@@ -58,7 +58,7 @@ class AuthController extends Controller
 
         if (!$user) {
             $out = [
-                "message" => "login_vailed",
+                "message" => "login_failed",
                 "code"    => 401,
                 "result"  => [
                     "token" => null,
@@ -83,7 +83,7 @@ class AuthController extends Controller
             ];
         } else {
             $out = [
-                "message" => "login_vailed",
+                "message" => "login_failed",
                 "code"    => 401,
                 "result"  => [
                     "token" => null,
