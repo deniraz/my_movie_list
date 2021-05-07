@@ -54,20 +54,20 @@ class UserController extends Controller
     {   
 
         $user_id=DB::table('users')
-        // ->select('id')
+        ->select('id')
         ->where('token', $request->token)
         ->pluck('id');
         
-        // $users=DB::table('user-movie-list')
-        // ->join('user', 'user-movie-list.user_id', 'user.id')
-        // ->where('token', $request->token)
-        // ->insert([
-        //     'user_id'=>$user_id->get('id'),
-        //     'movie_id'=>$request->movie_id,
-        //     'list_category'=>$request->list_category
-        // ]);
-        // return response()->json(['result' => $users]);
-        return $user_id;
+        $users=DB::table('user-movie-list')
+        ->join('user', 'user-movie-list.user_id', 'user.id')
+        ->where('token', $request->token)
+        ->insert([
+            'user_id'=>$user_id[0],
+            'movie_id'=>$request->movie_id,
+            'list_category'=>$request->list_category
+        ]);
+        return response()->json(['result' => $users]);
+        // return $user_id;
         // $results = DB::select("SELECT id FROM 'users' WHERE 'token' = $request->token");
         // return $results;
     }
