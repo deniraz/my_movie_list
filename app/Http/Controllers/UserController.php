@@ -21,14 +21,26 @@ class UserController extends Controller
         return "Login Success!";
     }
 
-    // public function showMovie(Request $request)
-    // {
-    //     $list=DB::table('user-movie-list')
-    //     ->where('user_id', $request=>user_id)
-    //     ->get();
+    public function showMovie(Request $request)
+    {
+        // $list=DB::table('user-movie-list')
+        // ->where('user_id', $request=>user_id)
+        // ->get();
+        // return $list;
 
-    //     return $list;
-    // }
+        $user_id=DB::table('users')
+        ->select('id')
+        ->where('token', $request->token)
+        ->pluck('id');
+        
+        $users=DB::table('user-movie-list')
+        ->where([
+            'user_id'=>$user_id[0],
+        ])
+        ->get();
+        return $users;
+        // return response()->json(['result' => $users]);
+    }
 
     // public function showWatchingList(Request $request)
     // {
@@ -95,10 +107,10 @@ class UserController extends Controller
 
     public function changeListCategory(Request $request)
     {
-        $users=DB::table('user-movie-list')
-        ->where('movie_id', $request->movie_id)
-        ->update([
-	        'list_category'=>$request->list_category
-	    ]);
+        // $users=DB::table('user-movie-list')
+        // ->where('movie_id', $request->movie_id)
+        // ->update([
+	    //     'list_category'=>$request->list_category
+	    // ]);
     }
 }
