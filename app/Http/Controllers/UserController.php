@@ -21,43 +21,55 @@ class UserController extends Controller
         return "Login Success!";
     }
 
-    public function showMovie(Request $request)
-    {
-        $list=DB::('user-movie-list')
-        ->where('user_id', $request=>user_id)
-        ->get();
+    // public function showMovie(Request $request)
+    // {
+    //     $list=DB::table('user-movie-list')
+    //     ->where('user_id', $request=>user_id)
+    //     ->get();
 
-        return $list;
-    }
+    //     return $list;
+    // }
 
-    public function showWatchingList(Request $request)
-    {
-        $list=DB::('user-movie-list')
-        ->where('user_id', $request=>user_id)
-        ->where('list_category', 'watching')
-        ->get();
+    // public function showWatchingList(Request $request)
+    // {
+    //     $list=DB::table('user-movie-list')
+    //     ->where('user_id', $request=>user_id)
+    //     ->where('list_category', 'watching')
+    //     ->get();
 
-        return $list;
-    }
+    //     return $list;
+    // }
 
-    public function showWatchedList(Request $request)
-    {
-        $list=DB::('user-movie-list')
-        ->where('user_id', $request=>user_id)
-        ->where('list_category', 'watched')
-        ->get();
+    // public function showWatchedList(Request $request)
+    // {
+    //     $list=DB::table('user-movie-list')
+    //     ->where('user_id', $request=>user_id)
+    //     ->where('list_category', 'watched')
+    //     ->get();
 
-        return $list;
-    }
+    //     return $list;
+    // }
 
     public function addMovie(Request $request)
-    {
-        $users=DB::table('user-movie-list')
-        ->insert([
-            'user_id'=>$request->user_id,
-            'movie_id'=>$request->movie_id,
-            'list_category'=>$request->list_category
-        ]);
+    {   
+
+        $user_id=DB::table('users')
+        // ->select('id')
+        ->where('token', $request->token)
+        ->pluck('id');
+        
+        // $users=DB::table('user-movie-list')
+        // ->join('user', 'user-movie-list.user_id', 'user.id')
+        // ->where('token', $request->token)
+        // ->insert([
+        //     'user_id'=>$user_id->get('id'),
+        //     'movie_id'=>$request->movie_id,
+        //     'list_category'=>$request->list_category
+        // ]);
+        // return response()->json(['result' => $users]);
+        return $user_id;
+        // $results = DB::select("SELECT id FROM 'users' WHERE 'token' = $request->token");
+        // return $results;
     }
 
     public function deleteMovie(Request $request)
@@ -69,7 +81,7 @@ class UserController extends Controller
 
     public function changeListCategory(Request $request)
     {
-        $users=DB::('user-movie-list')
+        $users=DB::table('user-movie-list')
         ->where('movie_id', $request->movie_id)
         ->update([
 	        'list_category'=>$request->list_category

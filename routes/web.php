@@ -18,6 +18,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+//auth
 $router->post("/register", "AuthController@register");
 $router->post("/login", "AuthController@login");
 
@@ -28,5 +29,5 @@ $router->get("/watching", "UserController@showWatchingList");
 $router->get("/watched", "UserController@showWatchedList");
 
 $router->post("/add", "UserController@addMovie");
-$router->get("/delete", "UserController@deleteMovie");
+$router->delete("/delete", "UserController@deleteMovie");
 $router->get("/edit", "UserController@changeListCategory");

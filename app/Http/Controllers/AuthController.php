@@ -32,7 +32,7 @@ class AuthController extends Controller
         if (User::create($data)) {
             $out = [
                 "message" => "register_success",
-                "code"    => 201,
+                "code"    => 200,
             ];
         } else {
             $out = [
