@@ -52,15 +52,14 @@ class UserController extends Controller
 
     public function addMovie(Request $request)
     {   
-
         $user_id=DB::table('users')
         ->select('id')
         ->where('token', $request->token)
         ->pluck('id');
         
         $users=DB::table('user-movie-list')
-        ->join('user', 'user-movie-list.user_id', 'user.id')
-        ->where('token', $request->token)
+        // ->join('user', 'user-movie-list.user_id', 'user.id')
+        // ->where('token', $request->token)
         ->insert([
             'user_id'=>$user_id[0],
             'movie_id'=>$request->movie_id,
@@ -74,9 +73,24 @@ class UserController extends Controller
 
     public function deleteMovie(Request $request)
     {
+        // $users=DB::table('user-movie-list')
+        // ->where('movie_id', $request->movie_id)
+        // ->delete();
+
+        $user_id=DB::table('users')
+        ->select('id')
+        ->where('token', $request->token)
+        ->pluck('id');
+        
         $users=DB::table('user-movie-list')
-        ->where('movie_id', $request->movie_id)
+        // ->join('user', 'user-movie-list.user_id', 'user.id')
+        ->where([
+            'user_id'=>$user_id[0],
+            'movie_id'=>$request->movie_id,
+            //['list_category'=>$request->list_category],
+        ])
         ->delete();
+        return response()->json(['result' => $users]);
     }
 
     public function changeListCategory(Request $request)
