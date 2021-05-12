@@ -41,12 +41,28 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     // Matches "/auth/users
     $router->get('users', 'UserController@allUsers');
  
- });
+});
 
-$router->get("/user_movie", "UserController@showMovie");
-$router->get("/watching", "UserController@showWatchingList");
-$router->get("/watched", "UserController@showWatchedList");
+$router->group(['prefix' => 'library'], function () use ($router) {
+    // Matches "/library/show_list
+    $router->get("show_list", "UserController@showMovie");
 
-$router->post("/add", "UserController@addMovie");
-$router->delete("/delete", "UserController@deleteMovie");
-$router->put("/edit", "UserController@changeListCategory");
+    // Matches "/library/watching
+    $router->get("watching", "UserController@showWatchingList");
+
+    // Matches "/library/watched
+    $router->get("watched", "UserController@showWatchedList");
+
+    // Matches "/library/add
+    $router->post("add", "UserController@addMovie");
+
+    // Matches "/library/delete
+    $router->delete("delete", "UserController@deleteMovie");
+
+    // Matches "/library/edit
+    $router->put("edit", "UserController@changeListCategory");
+ 
+});
+
+
+
