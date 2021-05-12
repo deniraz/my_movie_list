@@ -28,6 +28,9 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     // Matches "/auth/login
     $router->post('login', 'AuthController@login');
 
+    // Matches "/auth/logout
+    $router->post('logout', 'AuthController@logout');
+
     // Matches "/auth/profile
     $router->get('profile', 'UserController@profile');
 
@@ -46,4 +49,4 @@ $router->get("/watched", "UserController@showWatchedList");
 
 $router->post("/add", "UserController@addMovie");
 $router->delete("/delete", "UserController@deleteMovie");
-$router->get("/edit", "UserController@changeListCategory");
+$router->put("/edit", "UserController@changeListCategory");
