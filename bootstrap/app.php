@@ -116,4 +116,6 @@ $app->routeMiddleware([
     'login' => App\Http\Middleware\LoginMiddleware::class,
 ]);
 
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
 return $app;

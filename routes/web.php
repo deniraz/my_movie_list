@@ -19,10 +19,26 @@ $router->get('/', function () use ($router) {
 });
 
 //auth
-$router->post("/register", "AuthController@register");
-$router->post("/login", "AuthController@login");
 
-$router->get("/user", "UserController@index");
+// Auth route group
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    // Matches "/auth/register
+    $router->post('register', 'AuthController@register');
+
+    // Matches "/auth/login
+    $router->post('login', 'AuthController@login');
+
+    // Matches "/auth/profile
+    $router->get('profile', 'UserController@profile');
+
+    // Matches "/auth/users/1 
+    //get one user by id
+    $router->get('users/{id}', 'UserController@singleUser');
+
+    // Matches "/auth/users
+    $router->get('users', 'UserController@allUsers');
+ 
+ });
 
 $router->get("/user_movie", "UserController@showMovie");
 $router->get("/watching", "UserController@showWatchingList");

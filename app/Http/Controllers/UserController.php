@@ -2,23 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 
 class UserController extends Controller
 {
-
+    /**
+     * Instantiate a new UserController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware("login");
+        $this->middleware('auth');
     }
 
-    public function index()
+    /**
+     * Get the authenticated User.
+     *
+     * @return Response
+     */
+    public function profile()
     {
-        return "Login Success!";
+        return response()->json(['user' => Auth::user()], 200);
+    }
+
+    /**
+     * Get all User.
+     *
+     * @return Response
+     */
+    public function allUsers()
+    {
+         return response()->json(['users' =>  User::all()], 200);
+    }
+
+     /**
+     * Get one user.
+     *
+     * @return Response
+     */
+    public function singleUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            return response()->json(['user' => $user], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'user not found!'], 404);
+        }
     }
 
     public function showMovie(Request $request)
@@ -64,23 +102,19 @@ class UserController extends Controller
 
     public function addMovie(Request $request)
     {   
-        $user_id=DB::table('users')
-        ->select('id')
-        ->where('token', $request->token)
-        ->pluck('id');
+        $user_id = Auth::user()->id;
         
         $users=DB::table('user-movie-list')
-        // ->join('user', 'user-movie-list.user_id', 'user.id')
-        // ->where('token', $request->token)
+        
         ->insert([
-            'user_id'=>$user_id[0],
+            'user_id'=>$user_id,
             'movie_id'=>$request->movie_id,
             'list_category'=>$request->list_category
         ]);
         return response()->json(['result' => $users]);
-        // return $user_id;
-        // $results = DB::select("SELECT id FROM 'users' WHERE 'token' = $request->token");
-        // return $results;
+
+        // $user = Auth::userOrFail();
+        // return $user;
     }
 
     public function deleteMovie(Request $request)
